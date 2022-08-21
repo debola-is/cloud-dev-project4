@@ -47,6 +47,11 @@ provider:
 
 
 
+
+
+
+
+
 functions:
 
   Auth:
@@ -106,6 +111,13 @@ functions:
           method: post
           path: todos/{todoId}/attachment
 
+
+
+
+
+
+
+
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
@@ -131,6 +143,12 @@ resources:
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
+
+
+
+
+
+
 
 
 custom:
@@ -169,4 +187,7 @@ custom:
               type: string  
             done:
               type: boolean
+
+
+
 
