@@ -9,6 +9,8 @@ plugins:
   - serverless-aws-documentation
   - serverless-reqvalidator-plugin
 
+
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -27,7 +29,7 @@ provider:
     PROJECT_NAME: MyTodo
     TODOS_TABLE: Todos-${self:provider.stage}
     # TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
+    ATTACHMENT_S3_BUCKET: MyTodo-images-${self:provider.stage}
     # SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -42,6 +44,7 @@ provider:
             - xray:PutTelemetryRecords
             - xray:PutTraceSegments
           Resource: "*"
+
 
 
 functions:
@@ -128,3 +131,42 @@ resources:
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
+
+
+custom:
+  documentation:
+    api:
+      info:
+        version: '1.0.0'
+        title: serverless-api
+        description: serverless-api
+    models: 
+      - name: CreateTodoRequest
+        contentType: "application/json"
+        schema:
+          required:
+            - name
+            - dueDate
+          properties:
+            name:
+              minLength: 1
+              type: string
+            dueDate:
+              type: string  
+
+      - name: UpdateTodoRequest
+        contentType: "application/json"
+        schema:
+          required:
+            - name
+            - dueDate
+            - done
+          properties:
+            name:
+              minLength: 1
+              type: string
+            dueDate:
+              type: string  
+            done:
+              type: boolean
+
