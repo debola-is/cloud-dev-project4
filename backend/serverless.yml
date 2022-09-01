@@ -9,8 +9,8 @@ plugins:
   - serverless-aws-documentation
   - serverless-reqvalidator-plugin
 
-  #test
-  
+  #test2
+
 
 
 
