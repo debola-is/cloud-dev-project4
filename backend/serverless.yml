@@ -181,6 +181,27 @@ resources:
     TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: todoId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: todoId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.TODOS_TABLE}
+
+    onlyBody:
+      Type: 'AWS::ApiGateway::RequestValidator'
+      Properties:
+        Name: 'only-body'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+          ValidateRequestBody: true
+          ValidateRequestParameters: false
 
     # TODO: Complete the bucket properties below.
     # Do not forget to add the CorsConfiguration propoerty
@@ -193,6 +214,8 @@ resources:
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
+
+# ------------------------------------------------------------------------------------------------------
 
 custom:
   documentation:
