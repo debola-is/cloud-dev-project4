@@ -10,8 +10,6 @@ plugins:
   - serverless-reqvalidator-plugin
   - serverless-plugin-tracing
 
-
-
 provider:
   name: aws
   runtime: nodejs12.x
@@ -24,7 +22,7 @@ provider:
     lambda: true
     apiGateway: true
 
-  # Use these variables in the functions and resouorces section below. For example, 
+  # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
     PROJECT_NAME: mytodo
@@ -44,21 +42,13 @@ provider:
           Action:
             - xray:PutTelemetryRecords
             - xray:PutTraceSegments
-          Resource: "*"
-
-
-
-
-
-
-
+          Resource: '*'
 
 functions:
-
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
+  # TODO: Configure this function -
   # Provide iamRoleStatements property for performing Actions on DynamoDB
   GetTodos:
     handler: src/lambda/http/getTodos.handler
@@ -78,12 +68,12 @@ functions:
         Action:
           - xray:PutTraceSegments
         Resource:
-          - "*"
+          - '*'
 
-  # TODO: Configure this function - 
-  # Provide iamRoleStatements property. Decide the Actions and AWS Resource. 
+  # TODO: Configure this function -
+  # Provide iamRoleStatements property. Decide the Actions and AWS Resource.
   # To refer to an AWS resource defined in the "Resources" section, you can use "Resource: !GetAtt <resource-name>.Arn"
-  # To validate incoming HTTP requests, we have provided the request schemas in function definition below. 
+  # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
     events:
@@ -93,10 +83,10 @@ functions:
           cors: true
           authorizer: Auth
           documentation:
-            summary: "Create a new todo item"
-            description: "Create a new todo item"
+            summary: 'Create a new todo item'
+            description: 'Create a new todo item'
             requestModels:
-              "application/json": CreateTodoRequest
+              'application/json': CreateTodoRequest
           reqValidatorName: RequestBodyValidator
     iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-create-todo-role-${self:provider.stage}
     iamRoleStatements:
@@ -108,9 +98,7 @@ functions:
         Action:
           - xray:PutTraceSegments
         Resource:
-          - "*"
-
-
+          - '*'
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements, and request schemas
@@ -123,10 +111,10 @@ functions:
           cors: true
           authorizer: Auth
           documentation:
-            summary: "Update a todo item"
-            description: "Update a todo item"
+            summary: 'Update a todo item'
+            description: 'Update a todo item'
             requestModels:
-              "application/json": UpdateTodoRequest
+              'application/json': UpdateTodoRequest
           reqValidatorName: RequestBodyValidator
     iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-update-todo-role-${self:provider.stage}
     iamRoleStatements:
@@ -138,7 +126,7 @@ functions:
         Action:
           - xray:PutTraceSegments
         Resource:
-          - "*"
+          - '*'
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
@@ -160,7 +148,7 @@ functions:
         Action:
           - xray:PutTraceSegments
         Resource:
-          - "*"
+          - '*'
 
   # TODO: Configure this function
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
@@ -170,29 +158,31 @@ functions:
       - http:
           method: post
           path: todos/{todoId}/attachment
-
-
-
-
-
-
-
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-s3-upload-role-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:*
+          - xray:PutTraceSegments
+        Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*
 
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
     # TODO: Fill the properties
-    # Feel free to change the names as you like. 
+    # Feel free to change the names as you like.
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
       Properties:
-    
+
     # TODO: Create a DynamoDB table with local secondary index and a composite key
     TodosTable:
       Type: AWS::DynamoDB::Table
       Properties:
 
-    # TODO: Complete the bucket properties below. 
+    # TODO: Complete the bucket properties below.
     # Do not forget to add the CorsConfiguration propoerty
     AttachmentsBucket:
       Type: AWS::S3::Bucket
@@ -204,13 +194,6 @@ resources:
       Type: AWS::S3::BucketPolicy
       Properties:
 
-
-
-
-
-
-
-
 custom:
   documentation:
     api:
@@ -218,9 +201,9 @@ custom:
         version: '1.0.0'
         title: serverless-api
         description: serverless-api
-    models: 
+    models:
       - name: CreateTodoRequest
-        contentType: "application/json"
+        contentType: 'application/json'
         schema:
           required:
             - name
@@ -230,10 +213,10 @@ custom:
               minLength: 1
               type: string
             dueDate:
-              type: string  
+              type: string
 
       - name: UpdateTodoRequest
-        contentType: "application/json"
+        contentType: 'application/json'
         schema:
           required:
             - name
@@ -244,10 +227,6 @@ custom:
               minLength: 1
               type: string
             dueDate:
-              type: string  
+              type: string
             done:
               type: boolean
-
-
-
-
