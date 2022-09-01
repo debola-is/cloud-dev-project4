@@ -11,5 +11,5 @@ jspm_packages
 # Local DynamoDb
 .dynamodb
 
-# node files
 package-lock.json
+

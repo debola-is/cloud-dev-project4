@@ -10,6 +10,7 @@ plugins:
   - serverless-reqvalidator-plugin
   - serverless-plugin-tracing
 
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -25,10 +26,12 @@ provider:
   # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
+  
     PROJECT_NAME: mytodo
     TODOS_TABLE: todos-sanni-${self:provider.stage}
     # TODOS_CREATED_AT_INDEX: CreatedAtIndex
     S3_BUCKET_NAME: mytodos-sanni-images-${self:provider.stage}
+
     # SIGNED_URL_EXPIRATION: 300
 
   logs:
@@ -43,6 +46,12 @@ provider:
             - xray:PutTelemetryRecords
             - xray:PutTraceSegments
           Resource: '*'
+
+
+
+
+
+
 
 functions:
   Auth:
@@ -168,6 +177,13 @@ functions:
           - xray:PutTraceSegments
         Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*
 
+
+
+
+
+
+
+
 resources:
   Resources:
     # Add necessary AWS resources. You will need at least the following AWS resources
@@ -249,6 +265,7 @@ resources:
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
+
         PolicyDocument:
           Id: MyPolicy
           Version: '2012-10-17'
@@ -262,6 +279,7 @@ resources:
 
 # ------------------------------------------------------------------------------------------------------
 
+
 custom:
   documentation:
     api:
@@ -269,9 +287,11 @@ custom:
         version: '1.0.0'
         title: serverless-api
         description: serverless-api
+
     models:
       - name: CreateTodoRequest
         contentType: 'application/json'
+
         schema:
           required:
             - name
@@ -281,10 +301,12 @@ custom:
               minLength: 1
               type: string
             dueDate:
+
               type: string
 
       - name: UpdateTodoRequest
         contentType: 'application/json'
+
         schema:
           required:
             - name
@@ -295,6 +317,7 @@ custom:
               minLength: 1
               type: string
             dueDate:
+
               type: string
             done:
               type: boolean
