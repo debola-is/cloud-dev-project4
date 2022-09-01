@@ -1,7 +1,13 @@
 {
   "name": "serverless-todo-app",
   "version": "1.0.0",
-  "description": "Serverless TODO image app",
+  "description": "Serverless todo application",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adebola Sanni",
+  "license": "ISC",
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/http-errors": "^1.6.1",
@@ -28,7 +34,5 @@
     "ts-loader": "^5.3.3",
     "typescript": ">=3.8.0",
     "webpack": "^4.29.6"
-  },
-  "author": "Ivan Mushketyk",
-  "license": "MIT"
+  }
 }
