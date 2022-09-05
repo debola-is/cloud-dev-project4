@@ -1,8 +1,10 @@
-import * as AWS from "aws-sdk";
 import { DocumentClient } from "aws-sdk/clients/dynamodb";
 import { Types } from 'aws-sdk/clients/s3';
 import { TodoItem } from "../models/TodoItem";
 import { TodoUpdate } from "../models/TodoUpdate";
+
+const AWSXRay = require('aws-xray-sdk-core')
+const AWS = AWSXRay.captureAWS(require('aws-sdk'))
 
 
 export class ToDoAccess {
